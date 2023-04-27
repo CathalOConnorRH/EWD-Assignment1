@@ -6,25 +6,24 @@ import MoviePage from "./pages/movieDetailsPage";
 import FavouriteMoviesPage from "./pages/favouriteMoviesPage";
 import MovieReviewPage from "./pages/movieReviewPage";
 import SiteHeader from './components/siteHeader'
-import Login from './pages/Login';
 import Register from "./pages/Register";
-import AuthProvider from "./contexts/AuthProvider";
-import AuthRoute from "./components/authRoute";
+import AuthContext from "./contexts/authContext";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PasswordReset from "./pages/PasswordReset";
 import UpcomingMovies from "./pages/upcomingMovies";
 import PopularTVShows from "./pages/popularTVShows"
+import AuthContextProvider from "./contexts/authContext";
+import SignUp from "./pages/signUpPage";
+import LoginPage from "./pages/loginPage";      
+import PrivateRoute from "./privateRoute";
 
 const App = () => {
     return (
-        <AuthProvider>
             <BrowserRouter>
                 <SiteHeader />
+                <AuthContextProvider>
                 <Routes>
-                    <Route element={<AuthRoute />}>
-                        <Route path="/movies/movieFavourites" element={<FavouriteMoviesPage type="movies" />} />
-                        <Route path="/tvshows/tvFavourites" element={<FavouriteMoviesPage type="tvshows" />} />
-                    </Route>
+                    <Route path="/movies/movieFavourites" element={ <PrivateRoute><FavouriteMoviesPage type="movies" /> </PrivateRoute>} />
+                    <Route path="/tvshows/tvFavourites" element={<PrivateRoute><FavouriteMoviesPage type="tvshows" /></PrivateRoute>} />
                     <Route path="/movies/:id" element={<MoviePage type="movies" />} />
                     <Route path="/tvshows/:id" element={<MoviePage type="tvshows" />} />
                     <Route path="/movies/" element={<HomePage type="movies" />} />
@@ -34,14 +33,14 @@ const App = () => {
                     <Route path="/person/:id" element={<MoviePage type="actor" />} />
                     <Route path="/movies/reviews/:id" element={<MovieReviewPage type="movies" />} />
                     <Route path="/tvshows/reviews/:id" element={<MovieReviewPage type="tvshows" />} />
-                    <Route path="/passwordreset" element={<PasswordReset />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route path="/" element={<HomePage type="movies" />} />
                     <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
+                    </Routes>
+                </AuthContextProvider>
             </BrowserRouter>
-        </AuthProvider>
     );
 };
 

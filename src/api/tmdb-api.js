@@ -1,14 +1,23 @@
 export const getMovies = () => {
     return fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`
+        //`https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&page=1`
+        `/api/movies`, {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+        }}
     )
         .then(res => res.json())
         .then(json => json.results);
 };
 
-export const getMovie = id => {
+export const getMovie = (args) => {
+    const [, idPart] = args.queryKey;
+    const { id } = idPart;
     return fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+        `/api/movies/${id}`, {
+            headers: {
+                'Authorization': window.localStorage.getItem('token')
+        }}
     ).then(res => res.json());
 };
 

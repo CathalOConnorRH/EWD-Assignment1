@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -11,8 +11,7 @@ import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useAuth } from "../../contexts/AuthProvider";
-
+ 
 const styles = {
     title: {
         flexGrow: 1,
@@ -26,26 +25,24 @@ const styles = {
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 const SiteHeader = () => {
+
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("lg"));
-    const { auth, signOut } = useAuth();
 
     const menuOptions = [
         { label: "Home", path: "/" },
-        !auth && (
-            { label: "Login", path: "/login/" }),
+        { label: "Login", path: "/login/" },
+        { label: "Signup", path: "/signup/" },
         { label: "Discover Movies", path: "/movies/" },
         { label: "Upcoming Movies", path: "/movies/upcoming" },
         { label: "Discover TV Shows", path: "/tvshows" },
         { label: "Popular TV", path: "/tvshows/popular" },
         { label: "Movie Favourites", path: "/movies/movieFavourites" },
         { label: "TV Favourites", path: "/tvshows/tvFavourites" },
-
-        auth && (
-            { label: "Signout", path: "/signout" }),
+        { label: "Signout", path: "/signout" }
     ];
 
     const handleLogout = async (e) => {
@@ -148,7 +145,6 @@ const SiteHeader = () => {
                 </Toolbar>
             </AppBar>
             <Offset />
-
             {/* <div className={classes.offset} /> */}
         </>
     );

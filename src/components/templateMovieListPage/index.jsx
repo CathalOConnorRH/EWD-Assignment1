@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieList from "../movieList";
+import { AuthContext } from "../../contexts/authContext";
 
 const styles = {
     root: {
@@ -22,6 +23,7 @@ function MovieListPageTemplate({ movies, tvShows, title, selectFavourite, props 
     const [titleFilter, setTitleFilter] = useState("");
     const [genreFilter, setGenreFilter] = useState("0");
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const context = useContext(AuthContext);
 
     const genreId = Number(genreFilter);
     let displayedMovies;
@@ -53,7 +55,7 @@ function MovieListPageTemplate({ movies, tvShows, title, selectFavourite, props 
         <>
             <Grid container sx={styles.root}>
                 <Grid item xs={12}>
-                    <Header title={title}
+                    <Header title={title + " for " + context.email}
                         type={props.type} />
                 </Grid>
                 <Grid item container spacing={5}>
