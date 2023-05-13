@@ -12,13 +12,13 @@ ADD ./docker/nginx/default.conf /etc/nginx/http.d/default.conf
 COPY ./docker/supervisord.conf /etc/supervisor/supervisord.conf
 COPY ./docker/supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
-RUN mkdir -p /home/www/node/node_modules && chown -R node:node /home/www/node
+RUN mkdir -p /app/node_modules && chown -R node:node /app
 RUN mkdir -p /var/log/supervisor && chown -R node:node /var/log/supervisor
 
-WORKDIR /home/www/node
-COPY package*.json ./
+WORKDIR /app
+COPY . .
 RUN npm install
-RUN npm ci --only=production
+RUN npm ci
 COPY --chown=node:node . ./
 EXPOSE 5173
 

@@ -10,6 +10,7 @@ const LoginPage = props => {
 
   const login = () => {
     context.authenticate(email, password);
+    return <Navigate to={"/movies"} />;
   };
 
   // Set 'from' to path where browser is redirected after a successful login.
@@ -17,7 +18,7 @@ const LoginPage = props => {
  // const { from } = props.location.state || { from: { pathname: "/" } };
 
   if (context.isAuthenticated === true) {
-    return <Navigate to={"./home"} />;
+    return <Navigate to={"/movies"} />;
   }
   return (
     <>
