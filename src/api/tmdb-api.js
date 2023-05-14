@@ -148,7 +148,7 @@ export const getSimilarTVShows = (id) => {
 
 export const getMovieReviews = (id) => {
     return fetch(
-        `/api/movies/${id}/reviews`, {
+        `/api/reviews/movies/${id}`, {
         headers: {
             'Authorization': window.localStorage.getItem('token')
         }
@@ -161,7 +161,7 @@ export const getMovieReviews = (id) => {
 
 export const getTVShowReviews = (id) => {
     return fetch(
-        `/api/tvshows/${id}/reviews`, {
+        `/api/reviews/tvshows/${id}`, {
         headers: {
             'Authorization': window.localStorage.getItem('token')
         }
