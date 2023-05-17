@@ -67,6 +67,29 @@ export const getSimilarMovies = (id) => {
 
 }
 
+export const getRecommendedMovies = (id) => {
+    return fetch(
+        `/api/movies/${id}/recommendations`, {
+        headers: {
+            'Authorization': window.localStorage.getItem('token')
+        }
+    })
+        .then((res) => res.json())
+        .then(json => json.results);
+
+}
+
+export const getRecommendedTvShows = (id) => {
+    return fetch(
+        `/api/tvshows/${id}/recommendations`, {
+        headers: {
+            'Authorization': window.localStorage.getItem('token')
+        }
+    })
+        .then((res) => res.json())
+        .then(json => json.results.results);
+
+}
 export const getTVShows = () => {
     return fetch(
         `/api/tvshows`, {
@@ -154,9 +177,7 @@ export const getMovieReviews = (id) => {
         }
     })
         .then((res) => res.json())
-        .then((json) => {
-            return json.results;
-        });
+        .then(json => json.results);
 };
 
 export const getTVShowReviews = (id) => {
@@ -192,4 +213,15 @@ export const getPopularTVShows = () => {
     })
         .then(res => res.json())
         .then(json => json.results);
+};
+
+export const submitReview = (author, review, movieId) => {
+    return fetch(`/api/reviews/movies/${movieId}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': window.localStorage.getItem('token')
+        },
+        method: 'post',
+        body: JSON.stringify({ author, review })
+    }).then(res => res.json())
 };

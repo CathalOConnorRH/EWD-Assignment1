@@ -7,7 +7,7 @@ import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
 import Slider from "react-slick";
 import Card from "@mui/material/Card";
-import { getMovieCredits, getSimilarMovies, getTVShowCredits, getSimilarTVShows } from "../../api/tmdb-api";
+import { getMovieCredits, getSimilarMovies, getTVShowCredits, getSimilarTVShows, getRecommendedMovies, getRecommendedTvShows } from "../../api/tmdb-api";
 
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
@@ -78,6 +78,7 @@ const MovieDetails = (props) => {
     const movie = props.movie
     const [movieCredits, setMovieCredits] = useState([]);
     const [similarMovies, setSimilarMovies] = useState([]);
+    const [recommendedMovies, setRecommendedMovies] = useState([]);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     useEffect(() => {
@@ -102,6 +103,17 @@ const MovieDetails = (props) => {
                 })
                 setSimilarMovies(similarMovies);
             });
+
+            getRecommendedMovies(movie.id).then(recommendedMovies => {
+                recommendedMovies.map(recommendedMovie => {
+                    if (recommendedMovie.backdrop_path === null) {
+                        recommendedMovie.backdrop_path = "/i-t32yvKixg10fG.png"
+                    } else {
+                        recommendedMovie.backdrop_path = 'https://www.themoviedb.org/t/p/w300_and_h300_face/' + recommendedMovie.backdrop_path
+                    }
+                })
+                setRecommendedMovies(recommendedMovies);
+            });
         } else if (props.type === "tvshows") {
             getTVShowCredits(movie.id).then(movieCredits => {
                 movieCredits.map(movieCredit => {
@@ -122,6 +134,16 @@ const MovieDetails = (props) => {
                     }
                 })
                 setSimilarMovies(similarMovies);
+            });
+            getRecommendedTvShows(movie.id).then(recommendedMovies => {
+                recommendedMovies.map(similarMovie => {
+                    if (recommendedMovie.backdrop_path === null) {
+                        recommendedMovie.backdrop_path = "/i-t32yvKixg10fG.png"
+                    } else {
+                        recommendedMovie.backdrop_path = 'https://www.themoviedb.org/t/p/w300_and_h300_face/' + recommendedMovie.backdrop_path
+                    }
+                })
+                setRecommendedMovies(recommendedMovies);
             });
         } else {
 
@@ -216,6 +238,29 @@ const MovieDetails = (props) => {
                                         <div>
                                             <><img src={similarMovie.backdrop_path} /><br></br></>
                                             Title: {props.type === "movies" ? similarMovie.title : similarMovie.name}<br></br>
+                                        </div>
+                                    </Card>
+                                </a>
+                            ))}
+                    </Slider>
+                </Typography>
+                : ""}
+            {props.type === "movies" || props.type === "tvshows" ?
+                <Typography variant="h5" component="h3">
+                    Recommended {props.type === "movies" ? "Movies" : "TV Shows"}
+                </Typography>
+                : ""}
+            {props.type === "movies" || props.type === "tvshows" ?
+                <Typography variant="h6" component="span">
+                    <Slider {...settings}>
+                        {recommendedMovies.map(
+                            recommendedMovie => (
+                                <a href={"/" + props.type + "/" + recommendedMovie.id} key={recommendedMovie.id}>
+
+                                    <Card sx={styles.card}>
+                                        <div>
+                                            <><img src={recommendedMovie.backdrop_path} /><br></br></>
+                                            Title: {props.type === "movies" ? recommendedMovie.title : recommendedMovie.name}<br></br>
                                         </div>
                                     </Card>
                                 </a>
