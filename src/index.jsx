@@ -27,19 +27,19 @@ const App = () => {
                 <Routes>
                     <Route path="/movies/movieFavourites" element={<PrivateRoute><FavouriteMoviesPage type="movies" /> </PrivateRoute>} />
                     <Route path="/tvshows/tvFavourites" element={<PrivateRoute><FavouriteMoviesPage type="tvshows" /></PrivateRoute>} />
-                    <Route path="/movies/:id" element={<MoviePage type="movies" />} />
-                    <Route path="/tvshows/:id" element={<MoviePage type="tvshows" />} />
-                    <Route path="/movies/" element={<HomePage type="movies" />} />
-                    <Route path="/movies/upcoming" element={<UpcomingMovies type="movies" />} />
-                    <Route path="/tvshows/" element={<HomePage type="tvshows" />} />
-                    <Route path="/tvshows/popular" element={<PopularTVShows type="tvshows" />} />
-                    <Route path="/person/:id" element={<MoviePage type="actor" />} />
-                    <Route path="/movies/reviews/:id" element={<MovieReviewPage type="movies" />} />
-                    <Route path="/tvshows/reviews/:id" element={<MovieReviewPage type="tvshows" />} />
+                    <Route path="/movies/:id" element={<PrivateRoute><MoviePage type="movies" /></PrivateRoute>} />
+                    <Route path="/tvshows/:id" element={<PrivateRoute><MoviePage type="tvshows" /></PrivateRoute>} />
+                    <Route path="/movies/" element={<PrivateRoute><HomePage type="movies" /></PrivateRoute>} />
+                    <Route path="/movies/upcoming" element={<PrivateRoute><UpcomingMovies type="movies" /></PrivateRoute>} />
+                    <Route path="/tvshows/" element={<PrivateRoute><HomePage type="tvshows" /></PrivateRoute>} />
+                    <Route path="/tvshows/popular" element={<PrivateRoute><PopularTVShows type="tvshows" /></PrivateRoute>} />
+                    <Route path="/person/:id" element={<PrivateRoute><MoviePage type="actor" /></PrivateRoute>} />
+                    <Route path="/movies/reviews/:id" element={<PrivateRoute><MovieReviewPage type="movies" /></PrivateRoute>} />
+                    <Route path="/tvshows/reviews/:id" element={<PrivateRoute><MovieReviewPage type="tvshows" /></PrivateRoute>} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/" element={<HomePage type="movies" />} />
+                    <Route path="/" element={<PrivateRoute><HomePage type="movies" /></PrivateRoute>} />
                     <Route path="*" element={<Navigate to="/" />} />
                 </Routes>
             </AuthContextProvider>
